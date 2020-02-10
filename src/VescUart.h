@@ -139,8 +139,8 @@ void VescUartSetCurrentBrake(float brakeCurrent);
 ///@param num as integer with the serial port in use (0=Serial; 1=Serial1; 2=Serial2; 3=Serial3;)
 ///num must not be set, when only one Serial
 
-void VescUartSetNunchukValues(remotePackage& data, int num);
-void VescUartSetNunchukValues(remotePackage& data);
+void VescUartSetNunchukValues(nunchuckPackage& data, int num);
+void VescUartSetNunchukValues(nunchuckPackage& data);
 
 ///Sends a command to VESC to control the motor position
 ///@param position as float with the position in degrees for the motor

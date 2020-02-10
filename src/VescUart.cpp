@@ -53,8 +53,8 @@ enum REC_State
   REC_PAYLOAD,
 };
 
-uint8_t payloadGlobal[400];
-uint8_t messageGlobal[400];
+uint8_t payloadGlobal[420];
+uint8_t messageGlobal[420];
 
 //HardwareSerial *serial; ///@param num as integer with the serial port in use (0=Serial; 1=Serial1; 2=Serial2; 3=Serial3;)
 uint16_t ReceiveUartMessage(uint8_t *payloadReceived, int num)
@@ -65,10 +65,10 @@ uint16_t ReceiveUartMessage(uint8_t *payloadReceived, int num)
 
   int counter = 0;
   //uint16_t endMessage = 256;
-  uint16_t endMessage = 400;
+  uint16_t endMessage = 420;
   bool messageRead = false;
 
-  //for(int i = 0; i < 400; i++)
+  //for(int i = 0; i < 420; i++)
   //  messageReceived[i]=0;
 
   uint16_t lenPayload = 0;
@@ -156,7 +156,7 @@ uint16_t ReceiveUartMessage(uint8_t *payloadReceived, int num)
 
       messageGlobal[counter] = c;
       counter++;
-      if (counter >= endMessage || counter >= 400)
+      if (counter >= endMessage || counter >= 420)
       {
         done = true;
       }
@@ -242,7 +242,7 @@ int PackSendPayload(uint8_t *payload, int lenPay, int num)
 {
   uint16_t crcPayload = crc16(payload, lenPay);
   int count = 0;
-  //uint8_t messageSend[400]; glob
+  //uint8_t messageSend[420]; glob
 
   if (lenPay <= 256)
   {
@@ -687,7 +687,7 @@ bool VescUartGet(bldcMeasure &values)
 bool VescUartGet(mc_configuration &config, int num)
 {
   uint8_t command[1] = {COMM_GET_MCCONF}; //COMM_GET_MCCONF  COMM_GET_VALUES
-  //uint8_t payload[400];glob
+  //uint8_t payload[420];glob
   PackSendPayload(command, 1, num);
   //delay(10); //needed, otherwise data is not read
   int lenPayload = ReceiveUartMessage(payloadGlobal, num); /* MC */
@@ -814,7 +814,7 @@ void VescUartSetCurrentBrake(float brakeCurrent)
   VescUartSetCurrentBrake(brakeCurrent, 0);
 }
 
-void VescUartSetNunchukValues(remotePackage &data, int num)
+void VescUartSetNunchukValues(nunchuckPackage &data, int num)
 {
   int32_t ind = 0;
   uint8_t payload[11];
@@ -846,7 +846,7 @@ void VescUartSetNunchukValues(remotePackage &data, int num)
 
   PackSendPayload(payload, 11, num);
 }
-void VescUartSetNunchukValues(remotePackage &data)
+void VescUartSetNunchukValues(nunchuckPackage &data)
 {
   VescUartSetNunchukValues(data, 0);
 }
