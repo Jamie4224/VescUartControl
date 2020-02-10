@@ -16,8 +16,6 @@
 //  RX     |    TX
 //  TX     |    RX
 
-
-#define DEBUG 
 #include "Config.h"
 #include <VescUart.h>
 #include <datatypes.h>
@@ -28,13 +26,9 @@ unsigned long count;
 void setup() {
 	
 	//Setup UART port
-	SetSerialPort(&SERIALIO);
-	SERIALIO.begin(115200);
-#ifdef DEBUG
-	//SEtup debug port
-	SetDebugSerialPort(&DEBUGSERIAL);
-	DEBUGSERIAL.begin(115200);
-	#endif
+	SetSerialPort(&MySerial);
+	MySerial.begin(115200);
+  Serial.begin(115200);
 }
 
 bldcMeasure Val;        //struct for telemetry data
@@ -43,12 +37,9 @@ mc_configuration mcVal; //struct for mc-config data
 // the loop function runs over and over again until power down or reset
 void loop() {
   
-  DEBUGSERIAL.print("Loop: "); DEBUGSERIAL.println(count++);
-  delay(4000);
-  
   //Reading mc-config
   if (VescUartGet(mcVal)) {
-    DEBUGSERIAL.println("Successfully read mc-config.");
+    Serial.println("Successfully read mc-config.");
     SerialPrint(mcVal);
     delay(100);
     
@@ -56,11 +47,11 @@ void loop() {
 
     if(VescUartSet(mcVal))
     {
-      DEBUGSERIAL.println("Successfully wrote mc-config.");
+      Serial.println("Successfully wrote mc-config.");
     }
     else
     {
-      DEBUGSERIAL.println("Failed to write mc-config.");
+      Serial.println("Failed to write mc-config.");
     }
     delay(4000);
   }
